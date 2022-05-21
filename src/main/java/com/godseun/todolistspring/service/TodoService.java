@@ -25,6 +25,20 @@ public class TodoService {
     return saveEntity.getTitle();
   }
 
+  public List<TodoEntity> create(final TodoEntity todoEntity) {
+
+    validate(todoEntity);
+
+    repository.save(todoEntity);
+    log.info("Entity ID : {} is saved.", todoEntity.getId());
+
+    return repository.findByUserId(todoEntity.getUserId());
+  }
+
+  public List<TodoEntity> retrieve(final String userId) {
+    return repository.findByUserId(userId);
+  }
+
   public List<TodoEntity> update(final TodoEntity todoEntity) {
 
     validate(todoEntity);
@@ -41,18 +55,19 @@ public class TodoService {
     return retrieve(todoEntity.getUserId());
   }
 
-  public List<TodoEntity> retrieve(final String userId) {
-    return repository.findByUserId(userId);
-  }
-
-  public List<TodoEntity> create(final TodoEntity todoEntity) {
+  public List<TodoEntity> delete(final TodoEntity todoEntity) {
 
     validate(todoEntity);
 
-    repository.save(todoEntity);
-    log.info("Entity ID : {} is saved.", todoEntity.getId());
+    try {
+      repository.delete(todoEntity);
+      log.info("Entity ID : {} is deleted.", todoEntity.getId());
+    } catch (Exception e) {
 
-    return repository.findByUserId(todoEntity.getUserId());
+      log.error("Error deleting ID : {}", todoEntity.getId());
+      throw new RuntimeException("Error deleting ID : " + todoEntity.getId());
+    }
+    return retrieve(todoEntity.getUserId());
   }
 
   private void validate(final TodoEntity todoEntity) {
