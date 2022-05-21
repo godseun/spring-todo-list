@@ -12,4 +12,9 @@ public class TestController {
   public String testController() {
     return "Hello world!";
   }
+
+  @GetMapping("/withPath")
+  public String testControllerWithPath() {
+    return "Hello spring!";
+  }
 }
