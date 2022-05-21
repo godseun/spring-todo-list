@@ -1,5 +1,9 @@
 package com.godseun.todolistspring.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.godseun.todolistspring.dto.ResponseDTO;
 import com.godseun.todolistspring.dto.TestRequestBodyDTO;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,5 +40,13 @@ public class TestController {
   @GetMapping("/testRequestBody")
   public String testControllerRequstBody(@RequestBody TestRequestBodyDTO dto) {
     return "Hello World! id : " + dto.getId() + " msg : " + dto.getMessage();
+  }
+
+  @GetMapping("/testResponseBody")
+  public ResponseDTO<String> testControllerResponseBody() {
+    List<String> list = new ArrayList<>();
+    list.add("Hello World! test ResponseDTO");
+    ResponseDTO<String> response = ResponseDTO.<String>builder().data(list).build();
+    return response;
   }
 }
