@@ -6,6 +6,7 @@ import java.util.List;
 import com.godseun.todolistspring.dto.ResponseDTO;
 import com.godseun.todolistspring.dto.TestRequestBodyDTO;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,5 +49,14 @@ public class TestController {
     list.add("Hello World! test ResponseDTO");
     ResponseDTO<String> response = ResponseDTO.<String>builder().data(list).build();
     return response;
+  }
+
+  @GetMapping("/testResponseEntity")
+  public ResponseEntity<?> testControllerEntity() {
+    List<String> list = new ArrayList<>();
+    list.add("ResponseEntity");
+    ResponseDTO<String> response = ResponseDTO.<String>builder().data(list).build();
+    // return ResponseEntity.badRequest().body(response);
+    return ResponseEntity.ok().body(response);
   }
 }
