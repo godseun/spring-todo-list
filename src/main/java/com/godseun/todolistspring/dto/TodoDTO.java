@@ -3,11 +3,9 @@ package com.godseun.todolistspring.dto;
 import com.godseun.todolistspring.model.TodoEntity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,5 +18,13 @@ public class TodoDTO {
     this.id = entity.getId();
     this.title = entity.getTitle();
     this.done = entity.isDone();
+  }
+
+  public static TodoEntity toEntity(final TodoDTO todoDTO) {
+    return TodoEntity.builder()
+        .id(todoDTO.getId())
+        .title(todoDTO.getTitle())
+        .done(todoDTO.isDone())
+        .build();
   }
 }
