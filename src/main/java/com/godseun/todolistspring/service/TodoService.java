@@ -1,6 +1,7 @@
 package com.godseun.todolistspring.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.godseun.todolistspring.model.TodoEntity;
 import com.godseun.todolistspring.persistence.TodoRepository;
@@ -22,6 +23,22 @@ public class TodoService {
     repository.save(entity);
     TodoEntity saveEntity = repository.findById(entity.getId()).get();
     return saveEntity.getTitle();
+  }
+
+  public List<TodoEntity> update(final TodoEntity todoEntity) {
+
+    validate(todoEntity);
+
+    final Optional<TodoEntity> original = repository.findById(todoEntity.getId());
+
+    original.ifPresent(todo -> {
+      todo.setTitle(todoEntity.getTitle());
+      todo.setDone(todoEntity.isDone());
+
+      repository.save(todoEntity);
+    });
+
+    return retrieve(todoEntity.getUserId());
   }
 
   public List<TodoEntity> retrieve(final String userId) {
