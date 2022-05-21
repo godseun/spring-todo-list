@@ -34,7 +34,7 @@ public class TestController {
   }
 
   @GetMapping("/testRequestBody")
-  public String testControllerRequstBody(@RequestBody(required = false) TestRequestBodyDTO dto) {
+  public String testControllerRequstBody(@RequestBody TestRequestBodyDTO dto) {
     return "Hello World! id : " + dto.getId() + " msg : " + dto.getMessage();
   }
 }
