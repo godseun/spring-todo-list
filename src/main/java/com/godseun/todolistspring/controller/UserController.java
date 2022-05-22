@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class UserController {
@@ -38,7 +35,7 @@ public class UserController {
 
       return ResponseEntity.ok().body(responseUserDTO);
     } catch (Exception e) {
-      ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+      ResponseDTO<UserDTO> responseDTO = ResponseDTO.<UserDTO>builder().error(e.getMessage()).build();
       return ResponseEntity.badRequest().body(responseDTO);
     }
   }
@@ -56,7 +53,7 @@ public class UserController {
 
       return ResponseEntity.ok().body(responseUserDTO);
     } else {
-      ResponseDTO responseDTO = ResponseDTO.builder().error("Login failed.").build();
+      ResponseDTO<UserDTO> responseDTO = ResponseDTO.<UserDTO>builder().error("Login failed.").build();
       return ResponseEntity.badRequest().body(responseDTO);
     }
   }
