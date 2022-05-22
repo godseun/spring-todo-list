@@ -3,6 +3,7 @@ package com.godseun.todolistspring.controller;
 import com.godseun.todolistspring.dto.ResponseDTO;
 import com.godseun.todolistspring.dto.UserDTO;
 import com.godseun.todolistspring.model.UserEntity;
+import com.godseun.todolistspring.security.TokenProvider;
 import com.godseun.todolistspring.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class UserController {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private TokenProvider tokenProvider;
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
@@ -47,9 +51,11 @@ public class UserController {
         userDTO.getPassword());
 
     if (null != user) {
+      final String token = tokenProvider.create(user);
       final UserDTO responseUserDTO = UserDTO.builder()
           .email(user.getEmail())
-          .id(user.getId()).build();
+          .id(user.getId())
+          .token(token).build();
 
       return ResponseEntity.ok().body(responseUserDTO);
     } else {
